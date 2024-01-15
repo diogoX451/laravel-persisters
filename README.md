@@ -1,162 +1,66 @@
-# Laravel Persisters
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-[![Build Status](https://travis-ci.org/georgehanson/laravel-persisters.svg?branch=master)](https://travis-ci.org/georgehanson/laravel-persisters) [![Coverage](https://codecov.io/gh/georgehanson/laravel-persisters/branch/master/graph/badge.svg)](https://codecov.io/gh/georgehanson/laravel-persisters)
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-This package is designed to make it easy to create a persister class for your laravel project. The idea of persisters is to abstract the data storing process.
+## About Laravel
 
-## Installation
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-To install the package, simply add the following to your composer.json file:
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-```json
-require: {
-    ...
-    "georgehanson/laravel-persisters": "^1.0"
-    ...
-}
-```
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Usage
+## Learning Laravel
 
-### Creating Persisters
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-To create a persister you simply need to create a new class, have it extend the base persister class and implement the abstracted methods. Here is an example:
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-```php
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-use GeorgeHanson\LaravelPersisters\BasePersister;
+## Laravel Sponsors
 
-class MyPersister extends BasePersister
-{
-    /**
-     * Create a new Model
-     *
-     * @param array $data
-     * @return Model
-     */
-    protected function create(array $data)
-    {
-        // Store a new resource here
-    }
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-    /**
-     * Update the given Model
-     *
-     * @param array $data
-     * @param Model $model
-     * @return Model
-     */
-    protected function update(array $data, Model $model)
-    {
-        // Update the given model here
-    }
-}
-```
+### Premium Partners
 
-In order to use your new persister, you can simply instantiate the class and call the persist method. Below is an example:
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
 
-```php
+## Contributing
 
-$data = [
-    'first_name' => 'John',
-    'last_name' => 'Doe'
-];
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-$persister = new MyPersister();
+## Code of Conduct
 
-$persister->persist($data);
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```
+## Security Vulnerabilities
 
-The base persister class will automatically work out whether you are creating a record or updating a record.
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-### Creating Records
+## License
 
-To create a new record using your persister class, simply call the persist method and pass in the data you which to save. The persist method can either accept an array of data, or a class which is `Arrayable` (such as a Collection, Request). Here is an example of creating a resource from a request.
-
-```php
-
-use Illuminate\Http\Request;
-use App\Persisters\MyPersister;
-
-class MyController extends Controller
-{
-    public function store(Request $request, MyPersister $persister) 
-    {
-        $record = $persister->persist($request);
-    }
-}
-
-```
-
-This will the fire the `create` method within your persister class you have created. Here you can handle any logic you wish for creating the resource.
-
-### Updating Records
-
-Updating records is just as simple as creating records. The only difference is you have to pass a second parameter to the `persist` method which is the model you want to update. Below is an example of how you would update a record from a request.
-
-```php
-
-use Illuminate\Http\Request;
-use App\Persisters\MyPersister;
-use App\User;
-
-class MyController extends Controller
-{
-    public function update($id, Request $request, MyPersister $persister) 
-    {
-        $user = User::find($id);
-        
-        // Update the user with the given data
-        $record = $persister->persist($request, $user);
-    }
-}
-
-```
-
-### Filtering Data
-
-We cannot be certain that the data we receive in our request is always the data we want to persist. For example, when we are saving the record we do not want to store the `_token` which is passed by Laravel for CSRF protection. We can do this simply by specifying the keys in the persister. This will then filter the data which has been passed and only return the data where that key exists. If you have specified a key in the keys array, however it is not found in the data being passed to the persister then it will set the value of that key to `null`. Here is an example of filtering the data:
-
-```php
-
-use GeorgeHanson\LaravelPersisters\BasePersister;
-
-class MyPersister extends BasePersister
-{
-    /**
-     * The data to filter
-     * 
-     * @type array
-     */
-    public $keys = [
-        "first_name",
-        "last_name"
-    ];
-
-    /**
-     * Create a new Model
-     *
-     * @param array $data
-     * @return Model
-     */
-    protected function create(array $data)
-    {
-        // No matter what is passed to us, $data will only contain "first_name" and "last_name"
-    }
-
-    /**
-     * Update the given Model
-     *
-     * @param array $data
-     * @param Model $model
-     * @return Model
-     */
-    protected function update(array $data, Model $model)
-    {
-        // Update the given model here
-    }
-}
-```
-
-Alternatively, if you don't specify any keys it will return all of the data as an array.
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

@@ -1,42 +1,10 @@
 <?php
 
-namespace GeorgeHanson\LaravelPersisters\Tests;
+namespace Tests;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-abstract class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends BaseTestCase
 {
-    use RefreshDatabase;
-
-    /**
-     * Set the test.
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->withFactories(__DIR__.'/factories');
-    }
-
-    /**
-     * Get the package providers
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-        ];
-    }
-
-    /**
-     * Setup the testing environment
-     *
-     * @param  [type] $app [description]
-     * @return [type]      [description]
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        Hash::setRounds(4);
-    }
+    use CreatesApplication;
 }
